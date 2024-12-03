@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import { v4 as uuidv4 } from 'uuid';
 
 const app = express();
 const PORT = 3000;
@@ -13,10 +14,10 @@ app.post('/api/tasks/create', (req, res) => {
     try {
         const { taskInput } = req.body;
         if (!taskInput || taskInput.trim() === '')
-            return res.status(200).json({ message: 'Task input cannot be empty' });
+            return res.status(400).json({ message: 'Task input cannot be empty' });
 
         const newTask = {
-            id: Math.random(),
+            id: uuidv4(),
             text: taskInput,
             complete: false,
         };
@@ -44,7 +45,7 @@ app.get('/api/tasks/all', (req, res) => {
 
 app.delete('/api/tasks/:id/delete', (req, res) => {
     try {
-        const id = Number(req.params.id);
+        const id = req.params.id;
 
         const taskExist = tasks.find((task) => task.id === id);
         if (!taskExist) return res.status(404).json({ message: 'Task not found' });
@@ -60,13 +61,13 @@ app.delete('/api/tasks/:id/delete', (req, res) => {
 
 app.patch('/api/tasks/:id/update', (req, res) => {
     try {
-        const id = Number(req.params.id);
+        const id = req.params.id;
         const { editTaskInput } = req.body;
 
         const taskExist = tasks.find((task) => task.id === id);
         if (!taskExist) return res.status(404).json({ message: 'Task not found' });
         if (!editTaskInput || editTaskInput.trim() === '') {
-            return res.status(200).json({ message: 'Task input cannot be empty' });
+            return res.status(400).json({ message: 'Task input cannot be empty' });
         }
 
         tasks = tasks.map((task) => (task.id === id ? { ...task, text: editTaskInput } : task));
@@ -82,7 +83,7 @@ app.patch('/api/tasks/:id/update', (req, res) => {
 
 app.patch('/api/tasks/:id/complete', (req, res) => {
     try {
-        const id = Number(req.params.id);
+        const id = req.params.id;
 
         const taskExist = tasks.find((task) => task.id === id);
         if (!taskExist) return res.status(404).json({ message: 'Task not found' });
