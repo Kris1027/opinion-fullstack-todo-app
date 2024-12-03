@@ -42,6 +42,22 @@ app.get('/api/tasks/all', (req, res) => {
     }
 });
 
+app.delete('/api/tasks/:id/delete', (req, res) => {
+    try {
+        const id = Number(req.params.id);
+
+        const taskExist = tasks.find((task) => task.id === id);
+        if (!taskExist) return res.status(404).json({ message: 'Task not found' });
+
+        tasks = tasks.filter((task) => task.id !== id);
+
+        return res.status(200).json({ message: 'Task deleted successfully' });
+    } catch (error) {
+        console.error('Error in deleteTask controller', error.message);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
