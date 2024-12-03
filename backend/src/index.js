@@ -30,6 +30,18 @@ app.post('/api/tasks/create', (req, res) => {
     }
 });
 
+app.get('/api/tasks/all', (req, res) => {
+    try {
+        res.status(200).json({
+            message: tasks.length > 0 ? 'Tasks fetched successfully' : 'No tasks',
+            tasks,
+        });
+    } catch (error) {
+        console.error('Error in getAllTasks controller', error.message);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
