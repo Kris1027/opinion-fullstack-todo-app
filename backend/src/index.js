@@ -58,7 +58,7 @@ app.delete('/api/tasks/:id/delete', (req, res) => {
     }
 });
 
-app.put('/api/tasks/:id/update', (req, res) => {
+app.patch('/api/tasks/:id/update', (req, res) => {
     try {
         const id = Number(req.params.id);
         const { editTaskInput } = req.body;
@@ -76,6 +76,29 @@ app.put('/api/tasks/:id/update', (req, res) => {
         return res.status(200).json({ message: 'Task updated successfully', updatedTask });
     } catch (error) {
         console.error('Error in updateTask controller', error.message);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+});
+
+app.patch('/api/tasks/:id/complete', (req, res) => {
+    try {
+        const id = Number(req.params.id);
+
+        const taskExist = tasks.find((task) => task.id === id);
+        if (!taskExist) return res.status(404).json({ message: 'Task not found' });
+
+        tasks = tasks.map((task) =>
+            task.id === id ? { ...task, complete: !task.complete } : task
+        );
+
+        const updatedTask = tasks.find((task) => task.id === id);
+
+        res.status(200).json({
+            message: updatedTask.complete ? 'Task marked as complete' : 'Task marked as uncomplete',
+            task: updatedTask,
+        });
+    } catch (error) {
+        console.error('Error in toggleCompleteTask controller', error.message);
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 });
