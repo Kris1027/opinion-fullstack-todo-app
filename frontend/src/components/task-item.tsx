@@ -2,15 +2,21 @@ import { useTask } from '../hooks/use-task';
 import type { TaskProps } from '../contexts/task-provider';
 import EditForm from './edit-form';
 import { Button } from './ui/button';
+import { TableCell, TableRow } from './ui/table';
 
 const TaskItem = ({ task }: { task: TaskProps }) => {
     const { completingTask, handleToggleComplete, deletingTask, handleDeleteTask } = useTask();
 
     return (
-        <li className='flex justify-between p-2'>
-            <span className={task.complete ? 'line-through opacity-50' : ''}>{task.text}</span>
-            <div className='space-x-2'>
+        <TableRow key={task.id}>
+            <TableCell>
+                <p className={`${task.complete ? 'line-through opacity-50' : ''} flex-grow`}>
+                    {task.text}
+                </p>
+            </TableCell>
+            <TableCell className='space-x-2'>
                 <Button
+                    variant='outline'
                     disabled={completingTask === task.id}
                     onClick={() => handleToggleComplete(task.id)}
                 >
@@ -22,15 +28,16 @@ const TaskItem = ({ task }: { task: TaskProps }) => {
                         ? '...'
                         : 'done'}
                 </Button>
-                <EditForm task={task} />
+                {!task.complete && <EditForm task={task} />}
                 <Button
+                    variant='destructive'
                     disabled={deletingTask === task.id}
                     onClick={() => handleDeleteTask(task.id)}
                 >
                     {deletingTask === task.id ? 'Deleting...' : 'Delete'}
                 </Button>
-            </div>
-        </li>
+            </TableCell>
+        </TableRow>
     );
 };
 

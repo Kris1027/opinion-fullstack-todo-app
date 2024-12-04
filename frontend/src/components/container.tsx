@@ -1,5 +1,5 @@
 import { useTask } from '../hooks/use-task';
-import TaskItem from './task-item';
+import TaskList from './task-list';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
@@ -25,19 +25,9 @@ const Container = () => {
                 </form>
             </CardHeader>
             <CardContent>
-                {isLoading ? (
-                    <p>is Loading...</p>
-                ) : isError ? (
-                    <p>{isError}</p>
-                ) : tasks.length > 0 ? (
-                    <ul>
-                        {tasks.map((task) => (
-                            <TaskItem key={task.id} task={task} />
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No Task</p>
-                )}
+                {isLoading && <p>Is Loading...</p>}
+                {isError && <p>{isError}</p>}
+                {tasks && tasks.length > 0 ? <TaskList /> : <p>You have no task to do...</p>}
             </CardContent>
         </Card>
     );

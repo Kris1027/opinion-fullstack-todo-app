@@ -50,7 +50,11 @@ const EditForm = ({ task }: { task: TaskProps }) => {
                             </Button>
                         </DialogClose>
                         <DialogClose asChild>
-                            <Button type='button' onClick={() => setEditingTask(null)}>
+                            <Button
+                                variant='destructive'
+                                type='button'
+                                onClick={() => setEditingTask(null)}
+                            >
                                 Cancel
                             </Button>
                         </DialogClose>
