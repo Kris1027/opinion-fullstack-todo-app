@@ -1,23 +1,12 @@
 import { useTask } from '../hooks/use-task';
-import EditForm from './edit-form';
+import TaskItem from './task-item';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 
 const Container = () => {
-    const {
-        isLoading,
-        isError,
-        tasks,
-        taskInput,
-        setTaskInput,
-        handleAddTask,
-        handleDeleteTask,
-        handleToggleComplete,
-        addingTask,
-        deletingTask,
-        completingTask,
-    } = useTask();
+    const { isLoading, isError, tasks, taskInput, setTaskInput, handleAddTask, addingTask } =
+        useTask();
 
     return (
         <Card>
@@ -43,30 +32,7 @@ const Container = () => {
                 ) : tasks.length > 0 ? (
                     <ul>
                         {tasks.map((task) => (
-                            <li key={task.id}>
-                                <span className={task.complete ? 'line-through opacity-50' : ''}>
-                                    {task.text}
-                                </span>
-                                <Button
-                                    disabled={completingTask === task.id}
-                                    onClick={() => handleToggleComplete(task.id)}
-                                >
-                                    {task.complete
-                                        ? completingTask === task.id
-                                            ? '...'
-                                            : 'undo'
-                                        : completingTask === task.id
-                                        ? '...'
-                                        : 'done'}
-                                </Button>
-                                <EditForm task={task} />
-                                <Button
-                                    disabled={deletingTask === task.id}
-                                    onClick={() => handleDeleteTask(task.id)}
-                                >
-                                    {deletingTask === task.id ? 'Deleting...' : 'Delete'}
-                                </Button>
-                            </li>
+                            <TaskItem key={task.id} task={task} />
                         ))}
                     </ul>
                 ) : (
