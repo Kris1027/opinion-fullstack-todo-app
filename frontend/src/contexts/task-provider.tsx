@@ -68,9 +68,34 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const handleDeleteTask = async (id: string) => {
+        try {
+            const res = await fetch(`${API_URL}/${id}/delete`, {
+                method: 'DELETE',
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Failed while deleting task');
+
+            setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+            toast({ title: data.message });
+        } catch (error) {
+            setIsError((error as Error).message);
+        }
+    };
+
     return (
         <TaskContext.Provider
-            value={{ tasks, isLoading, isError, taskInput, setTaskInput, handleAddTask, isPending }}
+            value={{
+                tasks,
+                isLoading,
+                isError,
+                taskInput,
+                setTaskInput,
+                handleAddTask,
+                isPending,
+                handleDeleteTask,
+            }}
         >
             {children}
         </TaskContext.Provider>

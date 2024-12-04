@@ -4,8 +4,16 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 
 const Container = () => {
-    const { isLoading, isError, tasks, taskInput, setTaskInput, handleAddTask, isPending } =
-        useTask();
+    const {
+        isLoading,
+        isError,
+        tasks,
+        taskInput,
+        setTaskInput,
+        handleAddTask,
+        isPending,
+        handleDeleteTask,
+    } = useTask();
 
     return (
         <Card>
@@ -31,7 +39,10 @@ const Container = () => {
                 ) : tasks.length > 0 ? (
                     <ul>
                         {tasks.map((task) => (
-                            <li key={task.id}>{task.text}</li>
+                            <li key={task.id}>
+                                <span>{task.text}</span>
+                                <Button onClick={() => handleDeleteTask(task.id)}>Delete</Button>
+                            </li>
                         ))}
                     </ul>
                 ) : (
