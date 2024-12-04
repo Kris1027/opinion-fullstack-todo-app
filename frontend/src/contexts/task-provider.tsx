@@ -19,6 +19,8 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const [tasks, setTasks] = useState<TaskProps[]>([]);
     const [taskInput, setTaskInput] = useState<string>('');
+    const [editingTask, setEditingTask] = useState<TaskProps | null>(null);
+    const [editTaskInput, setEditTaskInput] = useState<string>('');
 
     const { toast } = useToast();
 
@@ -112,6 +114,39 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const handleStartEditing = (task: TaskProps) => {
+        setEditingTask(task);
+        setEditTaskInput(task.text);
+    };
+
+    const handleSaveEditedTask = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            if (!editingTask) return;
+            const res = await fetch(`${API_URL}/${editingTask.id}/update`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ editTaskInput: editTaskInput }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Failed while updating task');
+
+            setTasks((prevTasks) =>
+                prevTasks.map((task) =>
+                    task.id === editingTask.id ? { ...task, text: editTaskInput } : task
+                )
+            );
+            setEditingTask(null);
+            setEditTaskInput('');
+            toast({ title: data.message });
+        } catch (error) {
+            setIsError((error as Error).message);
+        }
+    };
+
     return (
         <TaskContext.Provider
             value={{
@@ -126,6 +161,12 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 addingTask,
                 deletingTask,
                 completingTask,
+                handleStartEditing,
+                handleSaveEditedTask,
+                editTaskInput,
+                setEditTaskInput,
+                editingTask,
+                setEditingTask,
             }}
         >
             {children}

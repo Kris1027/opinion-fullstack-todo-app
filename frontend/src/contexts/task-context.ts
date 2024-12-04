@@ -13,6 +13,12 @@ export type TaskContextProps = {
     addingTask: boolean;
     deletingTask: string | null;
     completingTask: string | null;
+    handleStartEditing: (task: TaskProps) => void;
+    handleSaveEditedTask: (e: React.FormEvent) => Promise<void>;
+    editTaskInput: string;
+    setEditTaskInput: React.Dispatch<React.SetStateAction<string>>;
+    editingTask: TaskProps | null;
+    setEditingTask: React.Dispatch<React.SetStateAction<TaskProps | null>>;
 };
 
 export const TaskContext = createContext<TaskContextProps | undefined>(undefined);
