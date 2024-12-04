@@ -1,13 +1,27 @@
 import { useTask } from '../hooks/use-task';
+import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Input } from './ui/input';
 
 const Container = () => {
-    const { isLoading, isError, tasks } = useTask();
+    const { isLoading, isError, tasks, taskInput, setTaskInput, handleAddTask, isPending } =
+        useTask();
 
     return (
         <Card>
             <CardHeader>
                 <CardTitle>Opinion FullStack Todo App</CardTitle>
+                <form onSubmit={handleAddTask}>
+                    <Input
+                        type='text'
+                        value={taskInput}
+                        onChange={(e) => setTaskInput(e.target.value)}
+                        placeholder='new task...'
+                    />
+                    <Button disabled={isPending} type='submit'>
+                        Add new task
+                    </Button>
+                </form>
             </CardHeader>
             <CardContent>
                 {isLoading ? (
