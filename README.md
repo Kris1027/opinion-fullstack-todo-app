@@ -41,6 +41,7 @@ git clone git@github.com:Kris1027/opinion-fullstack-todo-app.git
 2. Install dependencies for frontend and backend:
 
 ```bash
+cd opinion-fullstack-todo-app
 npm install
 ```
 

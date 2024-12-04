@@ -12,11 +12,11 @@ const TaskList = () => {
             ) : isError ? (
                 <p>{isError}</p>
             ) : tasks && tasks.length > 0 ? (
-                <Table>
+                <Table className='text-xs sm:text-base'>
                     <TableHeader>
                         <TableRow>
                             <TableHead>Tasks</TableHead>
-                            <TableHead>Actions</TableHead>
+                            <TableHead className='text-right'>Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

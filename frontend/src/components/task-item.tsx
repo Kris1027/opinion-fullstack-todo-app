@@ -10,11 +10,9 @@ const TaskItem = ({ task }: { task: TaskProps }) => {
     return (
         <TableRow key={task.id}>
             <TableCell>
-                <p className={`${task.complete ? 'line-through opacity-50' : ''} flex-grow`}>
-                    {task.text}
-                </p>
+                <p className={task.complete ? 'line-through opacity-50' : ''}>{task.text}</p>
             </TableCell>
-            <TableCell className='space-x-2'>
+            <TableCell className='flex justify-end space-x-1 sm:space-x-2'>
                 <Button
                     variant='outline'
                     disabled={completingTask === task.id}

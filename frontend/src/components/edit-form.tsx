@@ -27,8 +27,12 @@ const EditForm = ({ task }: { task: TaskProps }) => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Edit your task: {task.text}</DialogTitle>
-                    <DialogDescription>Edited task cannot be the same or empty</DialogDescription>
+                    <DialogTitle className='text-sm sm:text-lg'>
+                        Edit your task: {task.text}
+                    </DialogTitle>
+                    <DialogDescription className='text-xs sm:text-base'>
+                        Edited task cannot be the same or empty
+                    </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSaveEditedTask} className='flex gap-2'>
                     <input

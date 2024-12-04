@@ -6,7 +6,7 @@ const AddForm = () => {
     const { taskInput, setTaskInput, handleAddTask, addingTask } = useTask();
 
     return (
-        <form onSubmit={handleAddTask} className='flex gap-2'>
+        <form onSubmit={handleAddTask} className='flex flex-col gap-2 sm:flex-row'>
             <Input
                 type='text'
                 value={taskInput}

@@ -5,13 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
 import { Toaster } from './components/ui/toaster';
 import { TaskProvider } from './contexts/task-provider';
 
-const Layout: React.FC = () => {
+const App: React.FC = () => {
     return (
         <TaskProvider>
             <Container>
                 <Card className='w-[768px]'>
                     <CardHeader>
-                        <CardTitle className='pb-4'>Opinion FullStack Todo App</CardTitle>
+                        <CardTitle className='pb-4 text-lg text-center sm:text-2xl'>
+                            Opinion FullStack Todo App
+                        </CardTitle>
                         <AddForm />
                     </CardHeader>
                     <CardContent>
@@ -24,4 +26,4 @@ const Layout: React.FC = () => {
     );
 };
 
-export default Layout;
+export default App;
