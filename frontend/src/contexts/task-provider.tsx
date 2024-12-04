@@ -1,5 +1,5 @@
-import { TaskContext } from '../contexts/task-context';
 import { useEffect, useState } from 'react';
+import { TaskContext } from './task-context';
 import { useToast } from '../hooks/use-toast';
 
 export type TaskProps = {

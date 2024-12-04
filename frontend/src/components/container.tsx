@@ -1,4 +1,5 @@
 import { useTask } from '../hooks/use-task';
+import EditForm from './edit-form';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
@@ -16,12 +17,6 @@ const Container = () => {
         addingTask,
         deletingTask,
         completingTask,
-        editTaskInput,
-        setEditTaskInput,
-        handleStartEditing,
-        handleSaveEditedTask,
-        editingTask,
-        setEditingTask,
     } = useTask();
 
     return (
@@ -49,51 +44,28 @@ const Container = () => {
                     <ul>
                         {tasks.map((task) => (
                             <li key={task.id}>
-                                {editingTask && editingTask.id === task.id ? (
-                                    <form onSubmit={handleSaveEditedTask}>
-                                        <input
-                                            type='text'
-                                            value={editTaskInput}
-                                            onChange={(e) => setEditTaskInput(e.target.value)}
-                                            placeholder='edit task...'
-                                        />
-                                        <Button type='submit'>Save</Button>
-                                        <Button onClick={() => setEditingTask(null)} type='reset'>
-                                            Cancel
-                                        </Button>
-                                    </form>
-                                ) : (
-                                    <>
-                                        <span
-                                            className={
-                                                task.complete ? 'line-through opacity-50' : ''
-                                            }
-                                        >
-                                            {task.text}
-                                        </span>
-                                        <Button
-                                            disabled={completingTask === task.id}
-                                            onClick={() => handleToggleComplete(task.id)}
-                                        >
-                                            {task.complete
-                                                ? completingTask === task.id
-                                                    ? '...'
-                                                    : 'undo'
-                                                : completingTask === task.id
-                                                ? '...'
-                                                : 'done'}
-                                        </Button>
-                                        <Button onClick={() => handleStartEditing(task)}>
-                                            Edit
-                                        </Button>
-                                        <Button
-                                            disabled={deletingTask === task.id}
-                                            onClick={() => handleDeleteTask(task.id)}
-                                        >
-                                            {deletingTask === task.id ? 'Deleting...' : 'Delete'}
-                                        </Button>
-                                    </>
-                                )}
+                                <span className={task.complete ? 'line-through opacity-50' : ''}>
+                                    {task.text}
+                                </span>
+                                <Button
+                                    disabled={completingTask === task.id}
+                                    onClick={() => handleToggleComplete(task.id)}
+                                >
+                                    {task.complete
+                                        ? completingTask === task.id
+                                            ? '...'
+                                            : 'undo'
+                                        : completingTask === task.id
+                                        ? '...'
+                                        : 'done'}
+                                </Button>
+                                <EditForm task={task} />
+                                <Button
+                                    disabled={deletingTask === task.id}
+                                    onClick={() => handleDeleteTask(task.id)}
+                                >
+                                    {deletingTask === task.id ? 'Deleting...' : 'Delete'}
+                                </Button>
                             </li>
                         ))}
                     </ul>

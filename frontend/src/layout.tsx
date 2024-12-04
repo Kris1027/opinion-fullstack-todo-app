@@ -2,7 +2,7 @@ import { TaskProvider } from './contexts/task-provider';
 import Container from './components/container';
 import { Toaster } from './components/ui/toaster';
 
-const Todo: React.FC = () => {
+const Layout: React.FC = () => {
     return (
         <TaskProvider>
             <main>
@@ -13,4 +13,4 @@ const Todo: React.FC = () => {
     );
 };
 
-export default Todo;
+export default Layout;
