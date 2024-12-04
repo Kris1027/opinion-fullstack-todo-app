@@ -8,7 +8,6 @@ export type TaskContextProps = {
     taskInput: string;
     setTaskInput: React.Dispatch<React.SetStateAction<string>>;
     handleAddTask: (e: React.FormEvent) => Promise<void>;
-    isPending: boolean;
     handleDeleteTask: (id: string) => Promise<void>;
     handleToggleComplete: (id: string) => Promise<void>;
 };

@@ -11,7 +11,6 @@ const Container = () => {
         taskInput,
         setTaskInput,
         handleAddTask,
-        isPending,
         handleDeleteTask,
         handleToggleComplete,
     } = useTask();
@@ -27,9 +26,7 @@ const Container = () => {
                         onChange={(e) => setTaskInput(e.target.value)}
                         placeholder='new task...'
                     />
-                    <Button disabled={isPending} type='submit'>
-                        Add new task
-                    </Button>
+                    <Button type='submit'>Add new task</Button>
                 </form>
             </CardHeader>
             <CardContent>
