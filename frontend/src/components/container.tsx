@@ -13,6 +13,7 @@ const Container = () => {
         handleAddTask,
         isPending,
         handleDeleteTask,
+        handleToggleComplete,
     } = useTask();
 
     return (
@@ -40,7 +41,12 @@ const Container = () => {
                     <ul>
                         {tasks.map((task) => (
                             <li key={task.id}>
-                                <span>{task.text}</span>
+                                <span className={task.complete ? 'line-through opacity-50' : ''}>
+                                    {task.text}
+                                </span>
+                                <Button onClick={() => handleToggleComplete(task.id)}>
+                                    {task.complete ? 'Undo' : 'Done'}
+                                </Button>
                                 <Button onClick={() => handleDeleteTask(task.id)}>Delete</Button>
                             </li>
                         ))}

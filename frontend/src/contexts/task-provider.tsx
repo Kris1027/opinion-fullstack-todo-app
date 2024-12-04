@@ -84,6 +84,26 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const handleToggleComplete = async (id: string) => {
+        try {
+            const res = await fetch(`${API_URL}/${id}/complete`, {
+                method: 'PATCH',
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Failed while completing task');
+
+            setTasks((prevTasks) =>
+                prevTasks.map((task) =>
+                    task.id === id ? { ...task, complete: !task.complete } : task
+                )
+            );
+            toast({ title: data.message });
+        } catch (error) {
+            setIsError((error as Error).message);
+        }
+    };
+
     return (
         <TaskContext.Provider
             value={{
@@ -95,6 +115,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 handleAddTask,
                 isPending,
                 handleDeleteTask,
+                handleToggleComplete,
             }}
         >
             {children}
