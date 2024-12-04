@@ -3,22 +3,32 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from './ui/table';
 import { useTask } from '../hooks/use-task';
 
 const TaskList = () => {
-    const { tasks } = useTask();
+    const { isLoading, isError, tasks } = useTask();
 
     return (
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>Tasks</TableHead>
-                    <TableHead>Actions</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {tasks.map((task) => (
-                    <TaskItem key={task.id} task={task} />
-                ))}
-            </TableBody>
-        </Table>
+        <>
+            {isLoading ? (
+                <p>Is Loading...</p>
+            ) : isError ? (
+                <p>{isError}</p>
+            ) : tasks && tasks.length > 0 ? (
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Tasks</TableHead>
+                            <TableHead>Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {tasks.map((task) => (
+                            <TaskItem key={task.id} task={task} />
+                        ))}
+                    </TableBody>
+                </Table>
+            ) : (
+                <p>You have no task to do...</p>
+            )}
+        </>
     );
 };
 
