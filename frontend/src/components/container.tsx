@@ -13,6 +13,9 @@ const Container = () => {
         handleAddTask,
         handleDeleteTask,
         handleToggleComplete,
+        addingTask,
+        deletingTask,
+        completingTask,
     } = useTask();
 
     return (
@@ -26,7 +29,9 @@ const Container = () => {
                         onChange={(e) => setTaskInput(e.target.value)}
                         placeholder='new task...'
                     />
-                    <Button type='submit'>Add new task</Button>
+                    <Button disabled={addingTask} type='submit'>
+                        {addingTask ? 'Adding new task...' : 'Add new task'}
+                    </Button>
                 </form>
             </CardHeader>
             <CardContent>
@@ -41,10 +46,24 @@ const Container = () => {
                                 <span className={task.complete ? 'line-through opacity-50' : ''}>
                                     {task.text}
                                 </span>
-                                <Button onClick={() => handleToggleComplete(task.id)}>
-                                    {task.complete ? 'Undo' : 'Done'}
+                                <Button
+                                    disabled={completingTask === task.id}
+                                    onClick={() => handleToggleComplete(task.id)}
+                                >
+                                    {task.complete
+                                        ? completingTask === task.id
+                                            ? '...'
+                                            : 'undo'
+                                        : completingTask === task.id
+                                        ? '...'
+                                        : 'done'}
                                 </Button>
-                                <Button onClick={() => handleDeleteTask(task.id)}>Delete</Button>
+                                <Button
+                                    disabled={deletingTask === task.id}
+                                    onClick={() => handleDeleteTask(task.id)}
+                                >
+                                    {deletingTask === task.id ? 'Deleting...' : 'Delete'}
+                                </Button>
                             </li>
                         ))}
                     </ul>

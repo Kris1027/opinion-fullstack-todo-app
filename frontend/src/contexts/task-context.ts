@@ -10,6 +10,9 @@ export type TaskContextProps = {
     handleAddTask: (e: React.FormEvent) => Promise<void>;
     handleDeleteTask: (id: string) => Promise<void>;
     handleToggleComplete: (id: string) => Promise<void>;
+    addingTask: boolean;
+    deletingTask: string | null;
+    completingTask: string | null;
 };
 
 export const TaskContext = createContext<TaskContextProps | undefined>(undefined);

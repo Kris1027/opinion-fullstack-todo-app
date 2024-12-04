@@ -13,6 +13,9 @@ const API_URL = 'http://localhost:3000/api/tasks';
 export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<string | null>(null);
+    const [addingTask, setAddingTask] = useState<boolean>(false);
+    const [deletingTask, setDeletingTask] = useState<string | null>(null);
+    const [completingTask, setCompletingTask] = useState<string | null>(null);
 
     const [tasks, setTasks] = useState<TaskProps[]>([]);
     const [taskInput, setTaskInput] = useState<string>('');
@@ -40,6 +43,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const handleAddTask = async (e: React.FormEvent) => {
         e.preventDefault();
+        setAddingTask(true);
         try {
             if (taskInput && taskInput.trim() !== '') {
                 const res = await fetch(`${API_URL}/create`, {
@@ -61,10 +65,13 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
             }
         } catch (error) {
             setIsError((error as Error).message);
+        } finally {
+            setAddingTask(false);
         }
     };
 
     const handleDeleteTask = async (id: string) => {
+        setDeletingTask(id);
         try {
             const res = await fetch(`${API_URL}/${id}/delete`, {
                 method: 'DELETE',
@@ -77,10 +84,13 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
             toast({ title: data.message });
         } catch (error) {
             setIsError((error as Error).message);
+        } finally {
+            setDeletingTask(null);
         }
     };
 
     const handleToggleComplete = async (id: string) => {
+        setCompletingTask(id);
         try {
             const res = await fetch(`${API_URL}/${id}/complete`, {
                 method: 'PATCH',
@@ -97,6 +107,8 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
             toast({ title: data.message });
         } catch (error) {
             setIsError((error as Error).message);
+        } finally {
+            setCompletingTask(null);
         }
     };
 
@@ -111,6 +123,9 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 handleAddTask,
                 handleDeleteTask,
                 handleToggleComplete,
+                addingTask,
+                deletingTask,
+                completingTask,
             }}
         >
             {children}
